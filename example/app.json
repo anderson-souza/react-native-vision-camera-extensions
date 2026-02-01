@@ -1,4 +1,6 @@
 {
+  "name": "example",
+  "displayName": "Example",
   "expo": {
     "name": "VisionCameraExtensions Example",
     "slug": "react-native-vision-camera-extensions-example",
