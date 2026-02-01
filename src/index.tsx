@@ -1,3 +1,2 @@
-export function multiply(a: number, b: number): number {
-  return a * b;
-}
+export { AngleLine } from './components/AngleLine';
+export type { AngleLineProps } from './components/AngleLine';
