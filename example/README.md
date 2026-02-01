@@ -1,86 +1,105 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Vision Camera Extensions - Example App
 
-# Getting Started
+This example app demonstrates the **AngleLine** component from `react-native-vision-camera-extensions` - a real-time camera overlay that shows your device's horizontal tilt angle using accelerometer data.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Features
 
-## Step 1: Start Metro
+- 📸 Live camera preview with Vision Camera
+- 📐 Real-time angle indicator overlay
+- 🎯 Visual level indicator (turns green when device is level)
+- 🔄 Toggle front/back camera
+- 👁️ Show/hide AngleLine overlay
+- ⚡ Smooth animations with Reanimated
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## Getting Started
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+> **Important**: This app requires a **physical device** with a camera. iOS Simulator and some Android emulators do not support camera functionality.
 
-```sh
-# Using npm
-npm start
+### Prerequisites
 
-# OR using Yarn
-yarn start
-```
+Make sure you have completed the [React Native Environment Setup](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
 
-## Step 2: Build and run your app
+## Installation
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+From the **root** of the repository, install all dependencies:
 
 ```sh
-bundle install
+yarn
 ```
 
-Then, and every time you update your native dependencies, run:
+This will install dependencies for both the library and the example app (using Yarn workspaces).
+
+## Running the Example App
+
+### Step 1: Install iOS Dependencies (iOS only)
+
+If building for iOS, you need to install CocoaPods dependencies:
 
 ```sh
-bundle exec pod install
+cd example/ios
+pod install
+cd ../..
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+### Step 2: Run the App
+
+From the **root** of the repository, use these commands:
+
+**Android** (requires physical device or emulator with camera):
 
 ```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
+yarn example android
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+**iOS** (requires physical device - simulator doesn't have camera):
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+```sh
+yarn example ios
+```
 
-## Step 3: Modify your app
+> **Note**: On iOS, the app will only work on a physical device. Connect your iPhone/iPad via USB and select it as the build target in Xcode.
 
-Now that you have successfully run the app, let's make changes!
+If everything is set up correctly, you should see the camera preview with an AngleLine overlay. Tilt your device to see the angle indicator rotate!
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+## Using the Demo
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+Once the app is running:
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+1. **Grant camera permission** - Tap "Grant Permission" when prompted
+2. **Tilt your device** - Watch the white line rotate to match your device's angle
+3. **Level your device** - When horizontal (within 1.5°), the line turns green and shows "LEVEL"
+4. **Toggle controls**:
+   - **"Hide/Show Level"** - Toggle the AngleLine overlay on/off
+   - **"Flip Camera"** - Switch between front and back camera
 
-## Congratulations! :tada:
+## Customizing the AngleLine
 
-You've successfully run and modified your React Native App. :partying_face:
+The example app demonstrates most AngleLine features. To experiment, edit `example/src/App.tsx` and adjust the props:
 
-### Now what?
+```tsx
+<AngleLine
+  lineColor="#FFFFFF" // Change line color
+  levelIndicatorColor="#00FF00" // Change level indicator color
+  lineWidth={3} // Adjust line thickness
+  lineLength="85%" // Adjust line length
+  showAngleText={true} // Show/hide angle number
+  levelThreshold={1.5} // Adjust level sensitivity (degrees)
+  updateInterval={50} // Sensor update rate (ms)
+/>
+```
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+## Project Structure
+
+```
+example/
+├── src/
+│   ├── App.tsx                    # Main camera screen
+│   └── hooks/
+│       └── useCameraPermission.ts # Camera permission hook
+├── android/                       # Android native code
+├── ios/                           # iOS native code
+└── package.json
+```
 
 # Troubleshooting
 
