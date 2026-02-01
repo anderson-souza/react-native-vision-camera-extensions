@@ -1,0 +1,10 @@
+export const DEFAULT_LINE_COLOR = '#FFFFFF';
+export const DEFAULT_LEVEL_COLOR = '#00FF00';
+export const DEFAULT_REFERENCE_COLOR = 'rgba(255,255,255,0.3)';
+export const DEFAULT_LINE_WIDTH = 2;
+export const DEFAULT_LINE_LENGTH = '80%' as const;
+export const DEFAULT_LEVEL_THRESHOLD = 1;
+export const DEFAULT_UPDATE_INTERVAL = 50;
+export const ANIMATION_DURATION = 150;
+export const DEFAULT_ANGLE_CHANGE_THROTTLE_MS = 100;
+export const ANGLE_TEXT_UPDATE_THRESHOLD = 0.05;
