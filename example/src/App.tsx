@@ -8,7 +8,10 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Camera, useCameraDevice } from 'react-native-vision-camera';
-import { AngleLine } from 'react-native-vision-camera-extensions';
+import {
+  AngleLine,
+  CameraController,
+} from 'react-native-vision-camera-extensions';
 import { useCameraPermission } from './hooks/useCameraPermission';
 
 export default function App() {
@@ -111,6 +114,10 @@ export default function App() {
           <Text style={styles.levelText}>LEVEL</Text>
         </View>
       )}
+
+      <View>
+        <CameraController />
+      </View>
 
       {/* Control Buttons */}
       <View style={styles.controls}>
