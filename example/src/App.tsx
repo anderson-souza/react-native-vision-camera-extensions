@@ -8,7 +8,10 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Camera, useCameraDevice } from 'react-native-vision-camera';
-import { AngleLine } from 'react-native-vision-camera-extensions';
+import {
+  AngleLine,
+  Device3DIndicator,
+} from 'react-native-vision-camera-extensions';
 import { useCameraPermission } from './hooks/useCameraPermission';
 
 export default function App() {
@@ -16,7 +19,9 @@ export default function App() {
     'back',
   );
   const [angleLineEnabled, setAngleLineEnabled] = useState(true);
+  const [device3DEnabled, setDevice3DEnabled] = useState(true);
   const [isLevel, setIsLevel] = useState(false);
+  const [isAligned, setIsAligned] = useState(false);
 
   const { hasPermission, permissionStatus, requestPermission, isLoading } =
     useCameraPermission();
@@ -76,6 +81,10 @@ export default function App() {
     setAngleLineEnabled(prev => !prev);
   };
 
+  const toggleDevice3D = () => {
+    setDevice3DEnabled(prev => !prev);
+  };
+
   return (
     <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       {/* Camera Preview */}
@@ -105,10 +114,34 @@ export default function App() {
         />
       )}
 
+      {/* Device3DIndicator Overlay */}
+      {device3DEnabled && (
+        <Device3DIndicator
+          modelColor="#4A90E2"
+          alignedColor="#32CD32"
+          modelSize={120}
+          showShadow={true}
+          targetOrientation="portrait"
+          alignmentTolerance={2}
+          showAngles={true}
+          anglePrecision={1}
+          updateInterval={33}
+          onAlignmentChange={aligned => setIsAligned(aligned)}
+          style={styles.device3DIndicator}
+        />
+      )}
+
       {/* Level Status Badge */}
       {isLevel && angleLineEnabled && (
         <View style={styles.levelBadge}>
           <Text style={styles.levelText}>LEVEL</Text>
+        </View>
+      )}
+
+      {/* Alignment Status Badge */}
+      {isAligned && device3DEnabled && (
+        <View style={styles.alignedBadge}>
+          <Text style={styles.alignedText}>✓ ALIGNED</Text>
         </View>
       )}
 
@@ -122,6 +155,17 @@ export default function App() {
         >
           <Text style={styles.controlButtonText}>
             {angleLineEnabled ? 'Hide Level' : 'Show Level'}
+          </Text>
+        </TouchableOpacity>
+
+        {/* Toggle Device3D Button */}
+        <TouchableOpacity
+          style={styles.controlButton}
+          onPress={toggleDevice3D}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.controlButtonText}>
+            {device3DEnabled ? 'Hide 3D' : 'Show 3D'}
           </Text>
         </TouchableOpacity>
 
@@ -203,6 +247,11 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  device3DIndicator: {
+    position: 'absolute',
+    top: 100,
+    right: 20,
+  },
   levelBadge: {
     position: 'absolute',
     top: 20,
@@ -217,6 +266,26 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+  alignedBadge: {
+    position: 'absolute',
+    top: 60,
+    alignSelf: 'center',
+    backgroundColor: '#32CD32',
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 6,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  alignedText: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    fontSize: 16,
+    letterSpacing: 1,
+  },
   levelText: {
     color: '#000000',
     fontWeight: 'bold',
@@ -229,20 +298,23 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
+    justifyContent: 'space-around',
+    paddingHorizontal: 10,
+    gap: 8,
   },
   controlButton: {
+    flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    paddingHorizontal: 24,
-    paddingVertical: 14,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.2)',
+    alignItems: 'center',
   },
   controlButtonText: {
     color: '#FFFFFF',
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: '600',
   },
 });
